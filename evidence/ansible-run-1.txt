@@ -1,0 +1,69 @@
+
+PLAY [Configure web servers] ***************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [web-2]
+ok: [web-1]
+
+TASK [Wait for SSH to become available] ****************************************
+ok: [web-2]
+ok: [web-1]
+
+TASK [Show which host is being configured] *************************************
+ok: [web-1] => {
+    "msg": "Configuring web-1 at 54.229.186.24"
+}
+ok: [web-2] => {
+    "msg": "Configuring web-2 at 63.32.98.217"
+}
+
+TASK [webserver : Update apt cache] ********************************************
+changed: [web-2]
+changed: [web-1]
+
+TASK [webserver : Install web server package] **********************************
+changed: [web-2]
+changed: [web-1]
+
+TASK [webserver : Pin first-deployment timestamp on the host] ******************
+changed: [web-2]
+changed: [web-1]
+
+TASK [webserver : Read the pinned deployment timestamp] ************************
+ok: [web-2]
+ok: [web-1]
+
+TASK [webserver : Register deployment timestamp as a fact] *********************
+ok: [web-1]
+ok: [web-2]
+
+TASK [webserver : Deploy custom index page from template] **********************
+changed: [web-2]
+changed: [web-1]
+
+TASK [webserver : Ensure web service is enabled and running] *******************
+ok: [web-2]
+ok: [web-1]
+
+RUNNING HANDLER [webserver : Restart web service] ******************************
+changed: [web-1]
+changed: [web-2]
+
+TASK [Verify the web server responds locally] **********************************
+ok: [web-2]
+ok: [web-1]
+
+TASK [Confirm hostname appears on the served page] *****************************
+ok: [web-1] => {
+    "changed": false,
+    "msg": "web-1 is serving its custom page."
+}
+ok: [web-2] => {
+    "changed": false,
+    "msg": "web-2 is serving its custom page."
+}
+
+PLAY RECAP *********************************************************************
+web-1                      : ok=13   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+web-2                      : ok=13   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

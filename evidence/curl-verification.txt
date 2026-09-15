@@ -1,0 +1,12 @@
+=== 54.229.186.24 ===
+      <dt>Hostname</dt><dd>ip-10-20-1-254</dd>
+      <dt>Inventory name</dt><dd>web-1</dd>
+--
+      <dt>Deployed at (UTC)</dt><dd>2026-09-15T22:19:46Z</dd>
+      <dt>Environment</dt><dd>lab</dd>
+=== 63.32.98.217 ===
+      <dt>Hostname</dt><dd>ip-10-20-1-91</dd>
+      <dt>Inventory name</dt><dd>web-2</dd>
+--
+      <dt>Deployed at (UTC)</dt><dd>2026-09-15T22:19:46Z</dd>
+      <dt>Environment</dt><dd>lab</dd>
