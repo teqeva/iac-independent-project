@@ -1,0 +1,11 @@
+---
+web_package: nginx
+web_service: nginx
+web_root: /var/www/html
+web_index_file: /var/www/html/index.html
+
+site_title: "IaC Independent Project"
+site_owner: "teqiee"
+site_environment: "lab"
+
+deploy_stamp_file: /etc/iac-project-deployed-at
