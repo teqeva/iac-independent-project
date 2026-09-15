@@ -1,0 +1,25 @@
+# Secrets and keys
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+.env
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+crash.log
+*.tfvars
+!*.tfvars.example
+
+# Ansible
+*.retry
+ansible/inventory.ini
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
