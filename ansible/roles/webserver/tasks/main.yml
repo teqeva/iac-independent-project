@@ -1,0 +1,49 @@
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+
+- name: Install web server package
+  ansible.builtin.apt:
+    name: "{{ web_package }}"
+    state: present
+  become: true
+
+- name: Pin first-deployment timestamp on the host
+  ansible.builtin.copy:
+    content: "{{ ansible_date_time.iso8601 }}"
+    dest: "{{ deploy_stamp_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+    force: false
+  become: true
+
+- name: Read the pinned deployment timestamp
+  ansible.builtin.slurp:
+    src: "{{ deploy_stamp_file }}"
+  register: deploy_stamp_raw
+  become: true
+
+- name: Register deployment timestamp as a fact
+  ansible.builtin.set_fact:
+    deployed_at: "{{ deploy_stamp_raw.content | b64decode | trim }}"
+
+- name: Deploy custom index page from template
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "{{ web_index_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: Restart web service
+
+- name: Ensure web service is enabled and running
+  ansible.builtin.service:
+    name: "{{ web_service }}"
+    state: started
+    enabled: true
+  become: true

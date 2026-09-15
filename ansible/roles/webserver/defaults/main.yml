@@ -1,0 +1,10 @@
+---
+web_package: nginx
+web_service: nginx
+web_root: /var/www/html
+web_index_file: /var/www/html/index.html
+deploy_stamp_file: /etc/iac-project-deployed-at
+
+site_title: "Web Server"
+site_owner: "unknown"
+site_environment: "lab"

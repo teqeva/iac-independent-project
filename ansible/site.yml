@@ -1,0 +1,33 @@
+---
+- name: Configure web servers
+  hosts: web
+  gather_facts: true
+
+  pre_tasks:
+    - name: Wait for SSH to become available
+      ansible.builtin.wait_for_connection:
+        delay: 5
+        timeout: 300
+
+    - name: Show which host is being configured
+      ansible.builtin.debug:
+        msg: "Configuring {{ inventory_hostname }} at {{ ansible_host }}"
+
+  roles:
+    - webserver
+
+  post_tasks:
+    - name: Verify the web server responds locally
+      ansible.builtin.uri:
+        url: "http://localhost/"
+        return_content: true
+        status_code: 200
+      register: page_check
+      changed_when: false
+
+    - name: Confirm hostname appears on the served page
+      ansible.builtin.assert:
+        that:
+          - ansible_hostname in page_check.content
+        success_msg: "{{ inventory_hostname }} is serving its custom page."
+        fail_msg: "Page served but hostname is missing from the content."
