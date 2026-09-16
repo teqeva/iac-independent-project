@@ -1,7 +1,3 @@
-# ---------------------------------------------------------------------------
-# Lookups
-# ---------------------------------------------------------------------------
-
 data "aws_availability_zones" "available" {
   state = "available"
 }
@@ -20,10 +16,6 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 }
-
-# ---------------------------------------------------------------------------
-# Networking
-# ---------------------------------------------------------------------------
 
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
@@ -72,9 +64,6 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-# ---------------------------------------------------------------------------
-# Security
-# ---------------------------------------------------------------------------
 
 resource "aws_security_group" "web" {
   name        = "${var.project_name}-web-sg"
@@ -87,6 +76,30 @@ resource "aws_security_group" "web" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = [var.admin_ip_cidr]
+  }
+
+  ingress {
+    description = "SSH from EC2 Instance Connect service (eu-west-1)"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["18.202.216.48/29"]
+  }
+
+  ingress {
+    description = "SSH (2222) from admin IP - workaround for ISP blocking port 22"
+    from_port   = 2222
+    to_port     = 2222
+    protocol    = "tcp"
+    cidr_blocks = [var.admin_ip_cidr]
+  }
+
+  ingress {
+    description = "SSH from AWS CloudShell (used for Ansible runs since local ISP blocks SSH)"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["52.16.119.142/32"]
   }
 
   ingress {
@@ -118,10 +131,6 @@ resource "aws_key_pair" "admin" {
     Name = "${var.project_name}-key"
   }
 }
-
-# ---------------------------------------------------------------------------
-# Compute
-# ---------------------------------------------------------------------------
 
 resource "aws_instance" "web" {
   count = var.instance_count

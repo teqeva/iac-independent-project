@@ -25,6 +25,5 @@ output "web_urls" {
 
 output "ssh_commands" {
   description = "Ready-to-paste SSH commands"
-  value       = [for ip in aws_instance.web[*].public_ip : "ssh -i ~/.ssh/iac-project
-
-
+  value       = [for ip in aws_instance.web[*].public_ip : "ssh -i ~/.ssh/iac-project ubuntu@${ip}"]
+}
