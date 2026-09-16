@@ -167,33 +167,40 @@ Ansible can be run from AWS CloudShell if the local network blocks outbound SSH 
 
 ```text
 iac-independent-project/
-│
+├── README.md
 ├── terraform/
 │   ├── backend.tf
-│   ├── main.tf
+│   ├── providers.tf
 │   ├── variables.tf
+│   ├── main.tf
 │   ├── outputs.tf
 │   ├── terraform.tfvars.example
-│   └── ...
-│
+│   └── .gitignore
 ├── ansible/
+│   ├── ansible.cfg
 │   ├── site.yml
 │   ├── requirements.yml
-│   ├── inventory.ini
-│   └── templates/
-│       └── index.html.j2
-│
-├── evidence/
-│   ├── terraform-plan.txt
-│   ├── terraform-apply.txt
-│   ├── ansible-run-1.txt
-│   ├── ansible-run-2.txt
-│   ├── curl-verification.txt
-│   ├── terraform-destroy.txt
-│   └── screenshots/
-│
-├── .gitignore
-└── README.md
+│   ├── group_vars/
+│   │   └── all.yml
+│   ├── roles/
+│      └── webserver/
+│          ├── defaults/main.yml
+│          ├── tasks/main.yml
+│          ├── handlers/main.yml
+│          └── templates/index.html.j2
+└── evidence/
+    ├── terraform-plan.txt
+    ├── terraform-apply.txt
+    ├── ansible-run-1.txt
+    ├── ansible-run-2.txt
+    ├── terraform-destroy.txt
+    └── screenshots/
+        ├── browser_output_1.png
+        ├── browser_output_2.png
+        ├── successful_playbook_ansible_1.png
+        ├── successful_playbook_ansible_2.png
+        ├── terraform_apply.png
+        └── terraform_plan.png
 ```
 
 ## Backend Setup
